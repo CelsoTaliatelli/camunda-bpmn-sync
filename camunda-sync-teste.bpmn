@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="7e2939d" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="7e2939d" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0">
   <bpmn:process id="camunda_sync_teste" name="camunda-sync-teste" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" name="Inicia">
       <bpmn:outgoing>Flow_0kfh8d7</bpmn:outgoing>
@@ -8,14 +8,29 @@
     <bpmn:userTask id="user_task_test" name="User Task Teste">
       <bpmn:extensionElements>
         <zeebe:userTask />
+        <zeebe:formDefinition formId="form_one" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0kfh8d7</bpmn:incoming>
       <bpmn:outgoing>Flow_03el318</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:endEvent id="Event_0gmysv8" name="Finaliza">
-      <bpmn:incoming>Flow_03el318</bpmn:incoming>
+      <bpmn:incoming>Flow_16h40me</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_03el318" sourceRef="user_task_test" targetRef="Event_0gmysv8" />
+    <bpmn:sequenceFlow id="Flow_03el318" sourceRef="user_task_test" targetRef="Gateway_082ihk1" />
+    <bpmn:exclusiveGateway id="Gateway_082ihk1">
+      <bpmn:incoming>Flow_03el318</bpmn:incoming>
+      <bpmn:outgoing>Flow_16h40me</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0458fsk</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_16h40me" sourceRef="Gateway_082ihk1" targetRef="Event_0gmysv8">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=textfield_valido == true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="Event_0zy1qdb" name="Finaliza Invalido">
+      <bpmn:incoming>Flow_0458fsk</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0458fsk" sourceRef="Gateway_082ihk1" targetRef="Event_0zy1qdb">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=textfield_valido == false</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="camunda_sync_teste">
@@ -30,9 +45,18 @@
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0gmysv8_di" bpmnElement="Event_0gmysv8">
-        <dc:Bounds x="402" y="100" width="36" height="36" />
+        <dc:Bounds x="602" y="100" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="402" y="143" width="38" height="14" />
+          <dc:Bounds x="602" y="143" width="38" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_082ihk1_di" bpmnElement="Gateway_082ihk1" isMarkerVisible="true">
+        <dc:Bounds x="435" y="93" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0zy1qdb_di" bpmnElement="Event_0zy1qdb">
+        <dc:Bounds x="602" y="252" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="581" y="295" width="79" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0kfh8d7_di" bpmnElement="Flow_0kfh8d7">
@@ -41,7 +65,16 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_03el318_di" bpmnElement="Flow_03el318">
         <di:waypoint x="340" y="118" />
-        <di:waypoint x="402" y="118" />
+        <di:waypoint x="435" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16h40me_di" bpmnElement="Flow_16h40me">
+        <di:waypoint x="485" y="118" />
+        <di:waypoint x="602" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0458fsk_di" bpmnElement="Flow_0458fsk">
+        <di:waypoint x="460" y="143" />
+        <di:waypoint x="460" y="270" />
+        <di:waypoint x="602" y="270" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
