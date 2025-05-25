@@ -1,0 +1,25 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.7.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "7e2939d"
+  },
+  "schemaVersion": 18,
+  "id": "form_one",
+  "components": [
+    {
+      "label": "Valido",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0j6hezi",
+        "columns": null
+      },
+      "id": "Field_13ijxp6",
+      "key": "textfield_valido",
+      "description": "valido",
+      "defaultValue": "false"
+    }
+  ],
+  "type": "default"
+}
